@@ -1,6 +1,7 @@
 package com.netcracker.part1;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Book {
     private String name;
@@ -55,5 +56,19 @@ public class Book {
                 ']';
     }
 
-    //public String getAuthorNames(){}
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return Double.compare(book.price, price) == 0 && qty == book.qty &&
+                name.equals(book.name) &&
+                Arrays.equals(authors, book.authors);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, price, qty);
+    }
+
 }

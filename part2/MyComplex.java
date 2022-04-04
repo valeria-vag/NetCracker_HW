@@ -1,5 +1,7 @@
 package com.netcracker.part2;
 
+import java.util.Objects;
+
 public class MyComplex {
     private double real = 0.0;
     private double imag = 0.0;
@@ -37,39 +39,25 @@ public class MyComplex {
 
     @Override
     public String toString() {
-        if (imag < 0) {
-            return "(" + real + imag + "i)";
-        }
-        return "(" + real + " + " + imag + "i)";
-
+        return "(" + real + (imag >= 0 ? '+' : "") + imag + 'i' + ")";
     }
 
     public boolean isReal() {
-        if (real != 0) {
-            return true;
-        }
-        return false;
+        return (real != 0);
     }
 
     public boolean isImaginary() {
-        if (imag != 0) {
-            return true;
-        }
-        return false;
+        return (imag != 0);
     }
 
     public boolean equals(double real, double imag) {
-        if (Math.abs(this.real - real) < EPS &&
-                Math.abs(this.imag - imag) < EPS)
-            return true;
-        return false;
+        return (Math.abs(this.real - real) < EPS &&
+                Math.abs(this.imag - imag) < EPS);
     }
 
     public boolean equals(MyComplex another) {
-        if (Math.abs(this.real - another.real) < EPS &&
-                Math.abs(this.imag - another.imag) < EPS)
-            return true;
-        return false;
+        return (Math.abs(this.real - another.real) < EPS &&
+                Math.abs(this.imag - another.imag) < EPS);
     }
 
     public double magnitude() {
@@ -112,7 +100,6 @@ public class MyComplex {
         return this;
     }
 
-    //?
     public MyComplex divide(MyComplex right) {
         double newReal = (real * right.real + imag * right.imag) /
                 (right.real * right.real + right.imag * right.imag);
@@ -124,6 +111,19 @@ public class MyComplex {
 
     public MyComplex conjugate() {
         return new MyComplex(this.real, (-1) * this.imag);
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        MyComplex myComplex = (MyComplex) o;
+        return Double.compare(myComplex.real, real) == 0 &&
+                Double.compare(myComplex.imag, imag) == 0;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(real, imag);
     }
 }
